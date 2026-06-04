@@ -33,11 +33,12 @@ uk-wind-roses/
 
 ## Image Format
 
-- Square JPG, 1600×1600 pixels
+- Square JPG, 800×800 pixels
 - 8 wind direction sectors
 - 0–12 m/s range, 2 m/s speed bins
 - Viridis colormap
-- No legend or title
+- No legend or title on the wind rose itself
+- Standalone legend available at `images/legend.jpg`
 
 ## Station Index (`stations.json`)
 
