@@ -39,7 +39,7 @@ CACHE_DIR = _default_cache_dir()
 
 
 class WindRoseAtlas:
-    def __init__(self, repo, branch="main", verbose=True):
+    def __init__(self, repo, branch="master", verbose=True):
         self.repo = repo
         self.branch = branch
         self.verbose = verbose
