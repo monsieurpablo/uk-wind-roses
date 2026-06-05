@@ -39,12 +39,13 @@ CACHE_DIR = _default_cache_dir()
 
 
 class WindRoseAtlas:
-    def __init__(self, repo, branch="master", verbose=True):
+    def __init__(self, repo, branch="master", cache_dir=None, verbose=True):
         self.repo = repo
         self.branch = branch
         self.verbose = verbose
         self._stations = None
         self._base_url = f"https://raw.githubusercontent.com/{repo}/{branch}"
+        self._cache_dir = cache_dir if cache_dir is not None else CACHE_DIR
 
     def _log(self, msg):
         if self.verbose:
@@ -54,7 +55,7 @@ class WindRoseAtlas:
         if self._stations is not None:
             return
 
-        cache_path = os.path.join(CACHE_DIR, "stations.json")
+        cache_path = os.path.join(self._cache_dir, "stations.json")
 
         if os.path.exists(cache_path):
             with open(cache_path) as f:
@@ -62,7 +63,7 @@ class WindRoseAtlas:
             return
 
         url = f"{self._base_url}/stations.json"
-        os.makedirs(CACHE_DIR, exist_ok=True)
+        os.makedirs(self._cache_dir, exist_ok=True)
         self._log(f"Fetching {url} ...")
         urllib.request.urlretrieve(url, cache_path)
 
