@@ -39,11 +39,16 @@ CACHE_DIR = _default_cache_dir()
 
 
 class WindRoseAtlas:
-    def __init__(self, repo, branch="main"):
+    def __init__(self, repo, branch="main", verbose=True):
         self.repo = repo
         self.branch = branch
+        self.verbose = verbose
         self._stations = None
         self._base_url = f"https://raw.githubusercontent.com/{repo}/{branch}"
+
+    def _log(self, msg):
+        if self.verbose:
+            print(msg)
 
     def _load_index(self):
         if self._stations is not None:
@@ -58,7 +63,7 @@ class WindRoseAtlas:
 
         url = f"{self._base_url}/stations.json"
         os.makedirs(CACHE_DIR, exist_ok=True)
-        print(f"Fetching {url} ...")
+        self._log(f"Fetching {url} ...")
         urllib.request.urlretrieve(url, cache_path)
 
         with open(cache_path) as f:
@@ -117,7 +122,7 @@ class WindRoseAtlas:
         for season, url in result["image_urls"].items():
             filename = os.path.basename(url)
             dest = os.path.join(target_dir, filename)
-            print(f"Downloading {url} ...")
+            self._log(f"Downloading {url} ...")
             urllib.request.urlretrieve(url, dest)
             downloaded.append(dest)
 
