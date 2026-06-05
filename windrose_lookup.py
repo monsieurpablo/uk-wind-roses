@@ -21,9 +21,21 @@ Usage:
 import json
 import math
 import os
+import sys
 import urllib.request
 
-CACHE_DIR = os.path.expanduser("~/.cache/windrose-atlas")
+
+def _default_cache_dir():
+    if sys.platform == "win32":
+        base = os.environ.get("LOCALAPPDATA", os.path.expanduser("~"))
+        return os.path.join(base, "windrose-atlas")
+    elif sys.platform == "darwin":
+        return os.path.expanduser("~/Library/Caches/windrose-atlas")
+    else:
+        return os.path.expanduser("~/.cache/windrose-atlas")
+
+
+CACHE_DIR = _default_cache_dir()
 
 
 class WindRoseAtlas:
